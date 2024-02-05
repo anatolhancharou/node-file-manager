@@ -4,6 +4,7 @@ import {
     listDirContents,
 } from './navigation.services.js';
 import { printOsInfo } from './os-info.services.js';
+import { calculateHash } from './hash-calculation.services.js';
 import { COMMANDS } from '../constants/index.js';
 
 export const commandsMapper = () => ({
@@ -17,7 +18,7 @@ export const commandsMapper = () => ({
     [COMMANDS.MV]: (appState, args) => {},
     [COMMANDS.RM]: (appState, args) => {},
     [COMMANDS.OS]: (_, args) => printOsInfo(args),
-    [COMMANDS.HASH]: (appState, args) => {},
+    [COMMANDS.HASH]: (appState, args) => calculateHash(appState, args),
     [COMMANDS.COMPRESS]: (appState, args) => {},
     [COMMANDS.DECOMPRESS]: (appState, args) => {},
 });
