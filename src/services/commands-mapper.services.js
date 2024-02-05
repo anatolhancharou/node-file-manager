@@ -5,6 +5,7 @@ import {
 } from './navigation.services.js';
 import { printOsInfo } from './os-info.services.js';
 import { calculateHash } from './hash-calculation.services.js';
+import { brotliFile } from './compress-file.services.js';
 import { COMMANDS } from '../constants/index.js';
 
 export const commandsMapper = () => ({
@@ -19,6 +20,6 @@ export const commandsMapper = () => ({
     [COMMANDS.RM]: (appState, args) => {},
     [COMMANDS.OS]: (_, args) => printOsInfo(args),
     [COMMANDS.HASH]: (appState, args) => calculateHash(appState, args),
-    [COMMANDS.COMPRESS]: (appState, args) => {},
-    [COMMANDS.DECOMPRESS]: (appState, args) => {},
+    [COMMANDS.COMPRESS]: (appState, args) => brotliFile(appState, args, true),
+    [COMMANDS.DECOMPRESS]: (appState, args) => brotliFile(appState, args),
 });
