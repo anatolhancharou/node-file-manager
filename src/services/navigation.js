@@ -6,7 +6,8 @@ import {
     sortItemsByName,
     normalizeString,
 } from '../helpers/index.js';
-import { CWD, INVALID_INPUT, OPERATION_FAILED } from '../constants/index.js';
+import { CWD, INVALID_INPUT } from '../constants/index.js';
+import { OperationFailedError } from '../entities/operation-failed-error.js';
 
 const { table: printTable } = console;
 const isWin = platform() === 'win32';
@@ -34,10 +35,10 @@ export const changeDir = async (appState, dirPath) => {
         if (stat.isDirectory()) {
             appState.set(CWD, resDirPath);
         } else {
-            throw new Error(OPERATION_FAILED);
+            throw new Error('Destination path is not a directory');
         }
-    } catch {
-        throw new Error(OPERATION_FAILED);
+    } catch ({ message }) {
+        throw new OperationFailedError(message);
     }
 };
 
@@ -76,8 +77,8 @@ export const listDirContents = async (appState, args) => {
                 !item.isSymbolicLink() &&
                 others.push(getTableRowData(item.name, 'unknown'));
         }
-    } catch {
-        throw new Error(OPERATION_FAILED);
+    } catch ({ message }) {
+        throw new OperationFailedError(message);
     }
 
     const sortedFolders = sortItemsByName(folders);

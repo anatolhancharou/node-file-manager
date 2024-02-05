@@ -2,17 +2,17 @@ import {
     changeDir,
     goToUpperDir,
     listDirContents,
-} from './navigation.services.js';
+} from './navigation.js';
 import {
     readFile,
     createNewFile,
     renameFile,
     transferFile,
     removeFile,
-} from './basic-file-operations.services.js';
-import { printOsInfo } from './os-info.services.js';
-import { calculateHash } from './hash-calculation.services.js';
-import { brotliFile } from './compress-file.services.js';
+} from './basic-file-operations.js';
+import { printOsInfo } from './os-info.js';
+import { calculateHash } from './hash-calculation.js';
+import { brotliFile } from './compress-file.js';
 import { COMMANDS } from '../constants/index.js';
 
 export const commandsMapper = () => ({

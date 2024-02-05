@@ -3,7 +3,8 @@ import { createReadStream, createWriteStream } from 'node:fs';
 import { pipeline } from 'node:stream/promises';
 import { createBrotliCompress, createBrotliDecompress } from 'node:zlib';
 import { parseInputArgs } from '../helpers/index.js';
-import { CWD, INVALID_INPUT, OPERATION_FAILED } from '../constants/index.js';
+import { CWD, INVALID_INPUT } from '../constants/index.js';
+import { OperationFailedError } from '../entities/operation-failed-error.js';
 
 export const brotliFile = async (appState, args, flag) => {
     const parsedArgs = parseInputArgs(args);
@@ -25,7 +26,7 @@ export const brotliFile = async (appState, args, flag) => {
             flag ? createBrotliCompress() : createBrotliDecompress(),
             writeStream
         );
-    } catch {
-        throw new Error(OPERATION_FAILED);
+    } catch ({ message }) {
+        throw new OperationFailedError(message);
     }
 };

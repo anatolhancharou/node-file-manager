@@ -3,7 +3,8 @@ import { createReadStream } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { finished } from 'node:stream/promises';
 import { normalizeString } from '../helpers/index.js';
-import { CWD, INVALID_INPUT, OPERATION_FAILED } from '../constants/index.js';
+import { CWD, INVALID_INPUT } from '../constants/index.js';
+import { OperationFailedError } from '../entities/operation-failed-error.js';
 
 const { log: print } = console;
 
@@ -27,7 +28,7 @@ export const calculateHash = async (appState, filePath) => {
         const result = hash.digest('hex');
 
         print(result);
-    } catch {
-        throw new Error(OPERATION_FAILED);
+    } catch ({ message }) {
+        throw new OperationFailedError(message);
     }
 };

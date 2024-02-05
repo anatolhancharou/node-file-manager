@@ -4,6 +4,7 @@ import { pipeline } from 'node:stream/promises';
 import { createReadStream, createWriteStream } from 'node:fs';
 import { isExists, normalizeString, parseInputArgs } from '../helpers/index.js';
 import { CWD, INVALID_INPUT, OPERATION_FAILED } from '../constants/index.js';
+import { OperationFailedError } from '../entities/operation-failed-error.js';
 
 const { log: print } = console;
 
@@ -23,8 +24,8 @@ export const readFile = async (appState, filePath) => {
 
         readStream.on('end', res);
 
-        readStream.on('error', () => {
-            rej(new Error(OPERATION_FAILED));
+        readStream.on('error', ({ message }) => {
+            rej(new OperationFailedError(message));
         });
     });
 };
@@ -38,8 +39,8 @@ export const createNewFile = async (appState, fileName) => {
 
     try {
         await writeFile(resFilePath, '', { flag: 'wx' });
-    } catch {
-        throw new Error(OPERATION_FAILED);
+    } catch ({ message }) {
+        throw new OperationFailedError(message);
     }
 };
 
@@ -57,8 +58,8 @@ export const renameFile = async (appState, args) => {
     try {
         if (await isExists(resNewFilePath)) throw new Error(OPERATION_FAILED);
         await rename(resCurrentFilePath, resNewFilePath);
-    } catch {
-        throw new Error(OPERATION_FAILED);
+    } catch ({ message }) {
+        throw new OperationFailedError(message);
     }
 };
 
@@ -82,8 +83,8 @@ export const transferFile = async (appState, args, isMove) => {
         if (await isExists(resNewFilePath)) throw new Error(OPERATION_FAILED);
         await pipeline(readStream, writeStream);
         isMove && (await rm(resCurrentFilePath));
-    } catch {
-        throw new Error(OPERATION_FAILED);
+    } catch ({ message }) {
+        throw new OperationFailedError(message);
     }
 };
 
@@ -96,7 +97,7 @@ export const removeFile = async (appState, filePath) => {
 
     try {
         await rm(resFilePath);
-    } catch {
-        throw new Error(OPERATION_FAILED);
+    } catch ({ message }) {
+        throw new OperationFailedError(message);
     }
 };

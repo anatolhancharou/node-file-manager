@@ -1,8 +1,8 @@
 import * as readline from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
 import { EOL } from 'node:os';
-import { commandsMapper } from './services/commands-mapper.services.js';
-import { parseProcessArgs } from './services/cli-args.services.js';
+import { commandsMapper } from './services/commands-mapper.js';
+import { parseProcessArgs } from './services/process-args.js';
 import { printCurrentDirPath, printMessage } from './helpers/index.js';
 import {
     CMD_EXIT,
@@ -27,7 +27,7 @@ export const init = (appState) => {
 
     readLine.on('line', async (input) => {
         const [command, ...args] = input.trim().split(' ');
-        const params = args.join(' ');
+        const params = args.join(' ').trim();
 
         if (!command) {
             return readLine.prompt();
@@ -40,8 +40,11 @@ export const init = (appState) => {
         try {
             commandsMapper().hasOwnProperty(command) &&
                 (await commandsMapper()[command](appState, params));
-        } catch ({ message }) {
-            print(message);
+        } catch ({ message, originalMessage }) {
+            const errorMessage = originalMessage
+                ? `${message}${EOL}(${originalMessage})`
+                : message;
+            print(errorMessage);
         }
 
         !commandsMapper().hasOwnProperty(command) && print(INVALID_INPUT);
