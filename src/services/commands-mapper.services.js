@@ -1,9 +1,14 @@
+import {
+    changeDir,
+    goToUpperDir,
+    listDirContents,
+} from './navigation.services.js';
 import { COMMANDS } from '../constants/index.js';
 
 export const commandsMapper = () => ({
-    [COMMANDS.UP]: (appState, args) => {},
-    [COMMANDS.CD]: (appState, args) => {},
-    [COMMANDS.LS]: (appState, args) => {},
+    [COMMANDS.UP]: (appState, args) => goToUpperDir(appState, args),
+    [COMMANDS.CD]: (appState, args) => changeDir(appState, args),
+    [COMMANDS.LS]: (appState, args) => listDirContents(appState, args),
     [COMMANDS.CAT]: (appState, args) => {},
     [COMMANDS.ADD]: (appState, args) => {},
     [COMMANDS.RN]: (appState, args) => {},
