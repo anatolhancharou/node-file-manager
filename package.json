@@ -1,0 +1,28 @@
+{
+    "name": "node-file-manager",
+    "version": "1.0.0",
+    "description": "file manager",
+    "engines": {
+        "node": ">=20.0.0"
+    },
+    "type": "module",
+    "scripts": {
+        "start": "node src/index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/anatolhancharou/node-file-manager.git"
+    },
+    "private": "true",
+    "keywords": [
+        "nodejs",
+        "assignments",
+        "file-manager"
+    ],
+    "author": "Anatol Hancharou",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/anatolhancharou/node-file-manager/issues"
+    },
+    "homepage": "https://github.com/anatolhancharou/node-file-manager#readme"
+}
