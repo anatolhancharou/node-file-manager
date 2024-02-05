@@ -22,7 +22,7 @@ export const getTableRowData = (name, type) => {
     return { Name: name, Type: type };
 };
 
-export const isExist = async (path) => {
+export const isExists = async (path) => {
     try {
         await access(path);
         return true;
